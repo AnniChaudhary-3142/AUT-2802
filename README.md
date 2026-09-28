@@ -4,12 +4,32 @@ We train LeNet-5 on MNIST with different optimizers (SGD with momentum, and Adam
 
 Structure of the repository -
 
-<img width="493" height="502" alt="image" src="https://github.com/user-attachments/assets/68c0f3ba-4abe-44d1-bd20-c76c31a38e80" />
+AUT-2802/
+├── 01_lenet_Tanh_Avg.ipynb     # "classic" LeNet-5: tanh + average pooling
+├── 02_lenet_Relu_Max.ipynb     # modern LeNet-5: ReLU + max pooling
+├── data/MNIST/raw/             # MNIST dataset files
+├── results/
+│   ├── classic_history.csv     # per-epoch metrics, every run (tanh + avg)
+│   ├── classic_test.csv        # final metrics, every run (tanh + avg)
+│   ├── classic_summary.csv     # averages per configuration (tanh + avg)
+│   ├── Relu_history.csv        # same three files for ReLU + max
+│   ├── Relu_test.csv
+│   ├── Relu_summary.csv
+│   └── figures/                # six plots per architecture
+├── LICENSE
+└── README.md
 
 The model -
 LeNet-5 is a small convolutional neural network with about 61,700 trainable parameters.
-<img width="486" height="237" alt="image" src="https://github.com/user-attachments/assets/5f5bcc1e-52f6-4b1f-840c-f516bef5d51a" />
-
+Input 1×32×32
+  → Conv 5×5, 6 filters   + activation   → 6×28×28
+  → Pool 2×2                             → 6×14×14
+  → Conv 5×5, 16 filters  + activation   → 16×10×10
+  → Pool 2×2                             → 16×5×5
+  → Conv 5×5, 120 filters + activation   → 120×1×1
+  → Flatten                              → 120
+  → Linear 120→84         + activation   → 84
+  → Linear 84→10                         → 10 class scores
 MNIST images are 28×28, so they are padded to 32×32 (with the normalised background value) to match what LeNet expects. Note that this is the common simplified LeNet-5: the convolution in the third layer connects every input map to every filter, rather than using the sparse connection table from the original paper.
 
 The experiment - 
@@ -19,7 +39,10 @@ Data split. 54,000 training images, 6,000 validation images (a fixed split, iden
 Training setup. 15 epochs, batch size 128, cross-entropy loss, PyTorch defaults for weight initialisation. No batch normalisation, no learning-rate schedule, no gradient clipping, no data augmentation. Seeds. Every configuration is run with 3 seeds (37, 42, 73). The seed controls both the initial weights and the order of the training batches. Since no stabilising techniques are used, results can vary a lot from run to run, so a single run can be misleading. Running three seeds shows which results are reliable.
 
 Total: 15 configurations × 3 seeds × 2 architectures = 90 training runs.
-<img width="557" height="263" alt="image" src="https://github.com/user-attachments/assets/61166483-1e32-4b80-9a24-644c836a49a6" />
+Group	Settings
+SGD	Full 3×3 grid: learning rate ∈ {0.001, 0.01, 0.1} × momentum ∈ {0, 0.5, 0.9}
+Adam	Learning rate ∈ {1e-4, 1e-3, 3e-3, 1e-2, 3e-2}
+Stress test	SGD with lr = 0.1 and momentum = 0.99 (momentum deliberately pushed too far)
 
 
 Results -
