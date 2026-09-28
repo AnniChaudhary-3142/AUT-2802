@@ -2,23 +2,6 @@
 Codes for the Presentation as a part of the course AUT-2802
 We train LeNet-5 on MNIST with different optimizers (SGD with momentum, and Adam) and different learning rates, deliberately without any stabilising training techniques (no batch norm, no learning-rate schedules, no gradient clipping). The goal is to see the raw behaviour of each optimizer, including how and when it fails.
 
-Structure of the repository -
-
-AUT-2802/
-
-├── 01_lenet_Tanh_Avg.ipynb     # "classic" LeNet-5: tanh + average pooling
-├── 02_lenet_Relu_Max.ipynb     # modern LeNet-5: ReLU + max pooling
-├── data/MNIST/raw/             # MNIST dataset files
-├── results/
-│   ├── classic_history.csv     # per-epoch metrics, every run (tanh + avg)
-│   ├── classic_test.csv        # final metrics, every run (tanh + avg)
-│   ├── classic_summary.csv     # averages per configuration (tanh + avg)
-│   ├── Relu_history.csv        # same three files for ReLU + max
-│   ├── Relu_test.csv
-│   ├── Relu_summary.csv
-│   └── figures/                # six plots per architecture
-├── LICENSE
-└── README.md
 
 The model -
 LeNet-5 is a small convolutional neural network with about 61,700 trainable parameters.
