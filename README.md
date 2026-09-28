@@ -5,6 +5,7 @@ We train LeNet-5 on MNIST with different optimizers (SGD with momentum, and Adam
 Structure of the repository -
 
 AUT-2802/
+
 ├── 01_lenet_Tanh_Avg.ipynb     # "classic" LeNet-5: tanh + average pooling
 ├── 02_lenet_Relu_Max.ipynb     # modern LeNet-5: ReLU + max pooling
 ├── data/MNIST/raw/             # MNIST dataset files
@@ -22,6 +23,7 @@ AUT-2802/
 The model -
 LeNet-5 is a small convolutional neural network with about 61,700 trainable parameters.
 Input 1×32×32
+
   → Conv 5×5, 6 filters   + activation   → 6×28×28
   → Pool 2×2                             → 6×14×14
   → Conv 5×5, 16 filters  + activation   → 16×10×10
